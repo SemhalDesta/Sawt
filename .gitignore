@@ -1,5 +1,4 @@
-*.iml
-.gradle
+
 /local.properties
 /.idea/caches
 /.idea/libraries
@@ -7,12 +6,29 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
+google-services.json
+
+# Build outputs
+*.iml
+.gradle
 /build
 /captures
 .externalNativeBuild
 .cxx
+*.apk
+*.aab
+
+# Local config — machine-specific, never commit
+/local.properties
 local.properties
-google-services.json
+
+# IDE
+.idea/
+
+# OS
+.DS_Store
+
+# Signing — your actual keys, never commit these
 *.jks
 *.keystore
+keystore.properties
