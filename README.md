@@ -1,7 +1,7 @@
 # Sawt
 Tatweer Hackathon 2026 - Challenge 5 - Free Choice Al Qua'a, Al Ain, UAE
 ---
-#The Problem
+# The Problem
 
 The UAE records 8,000 to 10,000 strokes every year — and nearly 50% of those patients are under the age of 45, compared to the global average where 80% of stroke victims are 65 or older. The UAE was also reported to be among the three countries in the Middle East and North Africa with the highest prevalence of stroke. (Sources: Cleveland Clinic Abu Dhabi; World Health Expo, 2024; PMC10579853)
 
@@ -18,7 +18,8 @@ The patient to retain lateral eye movement — which many severe patients lose
 
 SAWT targets exactly this gap. It serves the patients who fall through every existing solution — patients whose primary reliable voluntary movement is blinking.
 
-#**Who It Is For**
+---
+# Who It Is For
 
 Primary user: A patient with severe motor and speech impairment following stroke or a similar neurological condition — who retains voluntary vertical eye blink but has lost all other voluntary movement and speech.
 
@@ -32,7 +33,9 @@ Emergency contacts who must be reachable instantly when a patient is in crisis
 
 Community context: Across the UAE — including in rural communities where families care for ill relatives at home without access to specialist rehabilitation centres — there is no affordable, accessible communication tool for this patient group. A solution that works on a smartphone a family already owns, with no specialist involvement, is not just convenient. For many families, it is the only realistic option.
 
-#**The Solution**
+---
+
+# The Solution
 
 SAWT (Arabic for "voice") is a fully functional Android application that enables patients with severe motor impairment to communicate using nothing but deliberate eye blinks detected through the smartphone's front camera.
 
@@ -55,14 +58,14 @@ Per-patient calibration: A 20-second guided calibration session measures that sp
 **Patient features**
 
 
-Real-time blink detection via Google MediaPipe FaceLandmarker + CameraX
-Communication board with dynamically loaded categories (Physical Needs, Pain, Emotional State, and more)
-Single-blink zone cycling with 5-second dwell-time selection
-Pain reporting: two-step flow selecting body location then severity (Mild / Severe), composed into one message
-Yes/No quick response mode accessible from any screen
-Go Back zone on every screen — no caregiver intervention needed to navigate
-SOS zone: simultaneously triggers a phone call to the caregiver AND sends Firebase Cloud Messaging push notifications to all registered emergency contacts
-Per-patient blink calibration screen to personalise detection thresholds
+- Real-time blink detection via Google MediaPipe FaceLandmarker + CameraX
+- Communication board with dynamically loaded categories (Physical Needs, Pain, Emotional State, and more)
+- Single-blink zone cycling with 5-second dwell-time selection
+- Pain reporting: two-step flow selecting body location then severity (Mild / Severe), composed into one message
+- Yes/No quick response mode accessible from any screen
+- Go Back zone on every screen — no caregiver intervention needed to navigate
+- SOS zone: simultaneously triggers a phone call to the caregiver AND sends Firebase Cloud Messaging push notifications to all registered emergency contacts
+- Per-patient blink calibration screen to personalise detection thresholds
 
 
 **Caregiver features**
