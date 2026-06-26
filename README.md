@@ -71,17 +71,17 @@ Per-patient calibration: A 20-second guided calibration session measures that sp
 **Caregiver features**
 
 
-Real-time feed of all patient communications, colour-coded by category (Physical Needs, Pain, Emotional State, SOS)
-Patient selector dropdown — one caregiver can monitor multiple patients simultaneously
-Firestore snapshot listener: feed updates the instant a patient makes a selection
-Manage patient emergency contacts
-Manage patient reminders
+- Real-time feed of all patient communications, colour-coded by category (Physical Needs, Pain, Emotional State, SOS)
+- Patient selector dropdown — one caregiver can monitor multiple patients simultaneously
+- Firestore snapshot listener: feed updates the instant a patient makes a selection
+- Manage patient emergency contacts
+- Manage patient reminders
 
 **Admin features**
 
 
-Manage registered users across all roles
-Manage communication board categories and submenu options stored in Firestore — changes reflect in every patient's app instantly, without a software update or developer involvement
+- Manage registered users across all roles
+- Manage communication board categories and submenu options stored in Firestore — changes reflect in every patient's app instantly, without a software update or developer involvement
 
 
 **Testable Claims**
@@ -131,6 +131,8 @@ SOS notification delivery confirmed across two physical Android devices simultan
 Zero false positives observed during 10-minute resting sessions (eyes open, no intentional blink)
 Category logging verified in Firestore — each message stored with timestamp, patient name, and category field
 
+---
+
 ###Feasibility and Deployment
 
 Hardware requirement: A standard Android smartphone with a front camera, plus a generic phone mount or bed rail clamp (widely available for under 150 AED). No proprietary medical hardware is required.
@@ -141,12 +143,12 @@ Setup time: A caregiver can onboard a new patient in under 10 minutes — regist
 
 Maintenance: Communication board content is managed entirely through the admin panel. No developer is needed to add messages, categories, or support additional languages. A hospital ward can customise SAWT for their specific patient population with no technical staff.
 
-Known constraints, honestly acknowledged:
+**Known constraints, honestly acknowledged:**
 
 
-Blink detection accuracy degrades in very low lighting — patients should be in adequately lit environments
-All real-time features require an internet connection — offline caching of the last-fetched menu is on the immediate roadmap
-Not yet clinically validated with patients who have actual motor impairment — current testing is with able-bodied participants in simulated conditions
+- Blink detection accuracy degrades in very low lighting — patients should be in adequately lit environments
+- All real-time features require an internet connection — offline caching of the last-fetched menu is on the immediate roadmap
+- Not yet clinically validated with patients who have actual motor impairment — current testing is with able-bodied participants in simulated conditions
 
 **Deployment path:**
 
@@ -155,9 +157,8 @@ Pilot with a single neurology or rehabilitation ward at a UAE hospital
 Admin panel allows the ward to customise the communication board for their patient population without developer involvement
 Caregiver onboards each patient in under 10 minutes
 No hardware procurement beyond a phone mount, no IT integration, no specialist training required
-
-**Scalability
-**
+---
+# Scalability
 SAWT is architecturally designed to scale beyond this event:
 
 
@@ -181,6 +182,8 @@ Cloud Firestore — users, menus, logs, emergency contacts
 Firebase Cloud Messaging + Cloud Functions — push notification delivery for SOS
 SharedPreferences — local blink calibration persistence
 
+---
+
 **How to Run**
 
 **Prerequisites**
@@ -190,7 +193,7 @@ Android Studio Hedgehog or later
 Physical Android device with API 26+ and a front camera (emulator does not support live blink detection)
 A Firebase project with Authentication, Firestore, and Cloud Messaging enabled
 
-
+---
 **Setup**
 
 
@@ -218,7 +221,8 @@ Note on Firebase credentials
 
 google-services.json is excluded from this repository for security. Reviewers who wish to run the app locally will need to connect their own Firebase project. To verify the app's functionality without setup, please watch the demo video.
 
-Demo
+--- 
+# Demo
 
 Watch the full demo video
 (Link will be added before submission deadline)
@@ -226,9 +230,9 @@ Watch the full demo video
 The demo shows:
 
 
-Patient logs in and runs the 20-second blink calibration
-Patient double-blinks to enter the communication board
-Patient navigates to Physical Needs → I am thirsty using single blinks and dwell-time selection
-Caregiver phone receives the message in real time, colour-coded by category
-Patient triggers SOS — caregiver receives phone call and push notification simultaneously
-Admin updates a communication board option — change reflects on the patient's app instantly
+- Patient logs in and runs the 20-second blink calibration
+- Patient double-blinks to enter the communication board
+- Patient navigates to Physical Needs → I am thirsty using single blinks and dwell-time selection
+- Caregiver phone receives the message in real time, colour-coded by category
+- Patient triggers SOS — caregiver receives phone call and push notification simultaneously
+- Admin updates a communication board option — change reflects on the patient's app instantly
