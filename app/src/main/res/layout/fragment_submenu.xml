@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0D0D0D"
+    android:padding="12dp">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/camera_preview"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="invisible"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/tv_category_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#E8E8E8"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_yes_no_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes / No"
+            android:textColor="#E8E8E8"
+            android:textSize="15sp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:background="@drawable/toggle_background"
+            android:layout_marginEnd="12dp"/>
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/green_dot"/>
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:id="@+id/options_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/options_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+    </ScrollView>
+
+</LinearLayout>
