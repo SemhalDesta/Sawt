@@ -2,6 +2,7 @@ package sosina.terefe.adu.ac.ae.sawt;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ public class CaregiverRemindersFragment extends Fragment {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private String patientName = "";
+    private long selectedTriggerMillis = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -161,6 +163,9 @@ public class CaregiverRemindersFragment extends Fragment {
             public void onClick(View view) {
                 int newDone = checkBox.isChecked() ? 1 : 0;
                 dbHelper.updateDone(reminder.getId(), newDone);
+                if (newDone == 1) {
+                    ReminderScheduler.cancel(getContext(), reminder.getId()); // don't notify for something already marked done
+                }
                 tv_title.setTextColor(newDone == 1 ?
                         Color.parseColor("#666666") : Color.WHITE);
                 tv_status.setText(newDone == 1 ? "Done" : "Upcoming");
@@ -180,7 +185,9 @@ public class CaregiverRemindersFragment extends Fragment {
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                //dbHelper.deleteById(reminder.getId());
                                 dbHelper.deleteById(reminder.getId());
+                                ReminderScheduler.cancel(getContext(), reminder.getId());
                                 reminders_container.removeView(card);
                                 Toast.makeText(getContext(), "Reminder deleted",
                                         Toast.LENGTH_SHORT).show();
@@ -205,11 +212,33 @@ public class CaregiverRemindersFragment extends Fragment {
 
         String[] frequencies = {"daily", "weekly", "once"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                getContext(),
-                android.R.layout.simple_spinner_item,
-                frequencies);
+                getContext(), android.R.layout.simple_spinner_item, frequencies);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        selectedTriggerMillis = 0;
+
+        et_time.setOnClickListener(view -> {
+            java.util.Calendar now = java.util.Calendar.getInstance();
+            new android.app.DatePickerDialog(getContext(), (datePicker, year, month, day) -> {
+                java.util.Calendar picked = java.util.Calendar.getInstance();
+                picked.set(year, month, day);
+
+                new android.app.TimePickerDialog(getContext(), (timePicker, hour, minute) -> {
+                    picked.set(java.util.Calendar.HOUR_OF_DAY, hour);
+                    picked.set(java.util.Calendar.MINUTE, minute);
+                    picked.set(java.util.Calendar.SECOND, 0);
+
+                    selectedTriggerMillis = picked.getTimeInMillis();
+
+                    java.text.SimpleDateFormat fmt =
+                            new java.text.SimpleDateFormat("MMM d, yyyy • h:mm a", java.util.Locale.getDefault());
+                    et_time.setText(fmt.format(picked.getTime()));
+                }, now.get(java.util.Calendar.HOUR_OF_DAY), now.get(java.util.Calendar.MINUTE), false).show();
+
+            }, now.get(java.util.Calendar.YEAR), now.get(java.util.Calendar.MONTH), now.get(java.util.Calendar.DAY_OF_MONTH))
+                    .show();
+        });
 
         new AlertDialog.Builder(getContext())
                 .setTitle("Add Reminder")
@@ -221,14 +250,19 @@ public class CaregiverRemindersFragment extends Fragment {
                         String time = et_time.getText().toString().trim();
                         String frequency = spinner.getSelectedItem().toString();
 
-                        if (title.isEmpty() || time.isEmpty()) {
-                            Toast.makeText(getContext(), "Please fill in all fields",
+                        if (title.isEmpty() || time.isEmpty() || selectedTriggerMillis == 0) {
+                            Toast.makeText(getContext(), "Please fill in all fields, including date & time",
                                     Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        Reminder reminder = new Reminder(0, title, time, frequency, 0, patientName);
-                        dbHelper.insert(reminder);
+                        Reminder reminder = new Reminder(0, title, time, frequency, 0,
+                                patientName, selectedTriggerMillis);
+                        long newId = dbHelper.insert(reminder);
+                        reminder.setId((int) newId);
+
+                        ReminderScheduler.schedule(getContext(), reminder);
+
                         loadReminders();
                         Toast.makeText(getContext(), "Reminder added", Toast.LENGTH_SHORT).show();
                     }
@@ -241,5 +275,17 @@ public class CaregiverRemindersFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         if (dbHelper != null) dbHelper.close();
+    }
+
+    private void ensureExactAlarmPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            android.app.AlarmManager am = (android.app.AlarmManager)
+                    getContext().getSystemService(android.content.Context.ALARM_SERVICE);
+            if (am != null && !am.canScheduleExactAlarms()) {
+                android.content.Intent intent =
+                        new android.content.Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                startActivity(intent);
+            }
+        }
     }
 }

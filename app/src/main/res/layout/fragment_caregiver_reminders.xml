@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_dark"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reminders"
+        style="@style/TextTitle"
+        android:paddingBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/tv_patient_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextSubtitle"
+        android:paddingBottom="16dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/reminders_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+    </ScrollView>
+
+    <Button
+        style="@style/AppButton"
+        android:id="@+id/btn_add_reminder"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="+ Add Reminder"
+        android:layout_marginTop="12dp"/>
+
+
+</LinearLayout>

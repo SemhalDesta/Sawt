@@ -24,4 +24,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "SAWT"
 include(":app")
+include(":app")
  

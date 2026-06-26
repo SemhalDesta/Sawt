@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0D0D0D"
+    android:gravity="center"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
+    android:paddingTop="48dp"
+    android:paddingBottom="48dp">
+
+    <!-- Hidden camera for MediaPipe — same trick as PatientHomeFragment -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/calib_camera_preview"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blink Calibration"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_calib_instruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Blink naturally for 20 seconds."
+        android:textColor="#AAAAAA"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"/>
+
+    <ProgressBar
+        android:id="@+id/calib_progress"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:max="20000"
+        android:progress="0"
+        android:progressTint="#4CAF50"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_calib_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20s"
+        android:textColor="#4CAF50"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:id="@+id/tv_calib_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Blinks detected: 0"
+        android:textColor="#888888"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp"/>
+
+    <TextView
+        android:id="@+id/tv_calib_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#4CAF50"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btn_calib_done"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Start Communicating"
+        android:textColor="#000000"
+        android:backgroundTint="#4CAF50"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
+</LinearLayout>
