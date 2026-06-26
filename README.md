@@ -157,8 +157,11 @@ Pilot with a single neurology or rehabilitation ward at a UAE hospital
 Admin panel allows the ward to customise the communication board for their patient population without developer involvement
 Caregiver onboards each patient in under 10 minutes
 No hardware procurement beyond a phone mount, no IT integration, no specialist training required
+
 ---
+
 # Scalability
+
 SAWT is architecturally designed to scale beyond this event:
 
 
