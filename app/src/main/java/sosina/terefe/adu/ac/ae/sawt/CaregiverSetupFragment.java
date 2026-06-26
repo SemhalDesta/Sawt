@@ -1,64 +1,112 @@
 package sosina.terefe.adu.ac.ae.sawt;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CaregiverSetupFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.fragment.app.Fragment;
+
 public class CaregiverSetupFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public CaregiverSetupFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CaregiverSetupFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CaregiverSetupFragment newInstance(String param1, String param2) {
-        CaregiverSetupFragment fragment = new CaregiverSetupFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private LinearLayout tab_feed, tab_reminders, tab_settings;
+    private TextView tab_feed_text, tab_reminders_text, tab_settings_text;
+    private ImageView tab_feed_icon, tab_reminders_icon, tab_settings_icon;
+    private View tab_feed_dot, tab_reminders_dot, tab_settings_dot;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_caregiver_setup, container, false);
+        View v = inflater.inflate(R.layout.fragment_caregiver_setup, container, false);
+
+        tab_feed = v.findViewById(R.id.tab_feed);
+        tab_reminders = v.findViewById(R.id.tab_reminders);
+        tab_settings = v.findViewById(R.id.tab_settings);
+        tab_feed_text = v.findViewById(R.id.tab_feed_text);
+        tab_reminders_text = v.findViewById(R.id.tab_reminders_text);
+        tab_settings_text = v.findViewById(R.id.tab_settings_text);
+        tab_feed_icon = v.findViewById(R.id.tab_feed_icon);
+        tab_reminders_icon = v.findViewById(R.id.tab_reminders_icon);
+        tab_settings_icon = v.findViewById(R.id.tab_settings_icon);
+        tab_feed_dot = v.findViewById(R.id.tab_feed_dot);
+        tab_reminders_dot = v.findViewById(R.id.tab_reminders_dot);
+        tab_settings_dot = v.findViewById(R.id.tab_settings_dot);
+
+
+        loadFragment(new CaregiverFeedFragment());
+        setActiveTab(0);
+
+        tab_feed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new CaregiverFeedFragment());
+                setActiveTab(0);
+            }
+        });
+
+        tab_reminders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new CaregiverRemindersFragment());
+                setActiveTab(1);
+            }
+        });
+
+        tab_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new CaregiverSettingsFragment());
+                setActiveTab(2);
+            }
+        });
+
+        return v;
+    }
+
+    private void loadFragment(Fragment fragment) {
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.caregiver_fragment_container, fragment)
+                .commit();
+    }
+
+    private void setActiveTab(int index) {
+
+        int inactive = 0xFF888888;
+        int active = 0xFFFFFFFF;
+
+        tab_feed_text.setTextColor(inactive);
+        tab_reminders_text.setTextColor(inactive);
+        tab_settings_text.setTextColor(inactive);
+
+        tab_feed_icon.setImageTintList(android.content.res.ColorStateList.valueOf(inactive));
+        tab_reminders_icon.setImageTintList(android.content.res.ColorStateList.valueOf(inactive));
+        tab_settings_icon.setImageTintList(android.content.res.ColorStateList.valueOf(inactive));
+
+        tab_feed_dot.setVisibility(View.INVISIBLE);
+        tab_reminders_dot.setVisibility(View.INVISIBLE);
+        tab_settings_dot.setVisibility(View.INVISIBLE);
+
+
+        switch (index) {
+            case 0:
+                tab_feed_text.setTextColor(active);
+                tab_feed_icon.setImageTintList(android.content.res.ColorStateList.valueOf(active));
+                tab_feed_dot.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                tab_reminders_text.setTextColor(active);
+                tab_reminders_icon.setImageTintList(android.content.res.ColorStateList.valueOf(active));
+                tab_reminders_dot.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                tab_settings_text.setTextColor(active);
+                tab_settings_icon.setImageTintList(android.content.res.ColorStateList.valueOf(active));
+                tab_settings_dot.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 }
