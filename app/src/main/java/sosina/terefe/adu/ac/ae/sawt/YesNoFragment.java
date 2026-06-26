@@ -1,12 +1,7 @@
 package sosina.terefe.adu.ac.ae.sawt;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
@@ -16,11 +11,14 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import android.os.CountDownTimer;
+import android.speech.tts.TextToSpeech;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.mediapipe.framework.image.BitmapImageBuilder;
 import com.google.mediapipe.framework.image.MPImage;
 import com.google.mediapipe.tasks.vision.core.RunningMode;
@@ -28,51 +26,55 @@ import com.google.mediapipe.tasks.vision.facelandmarker.FaceLandmarker;
 import com.google.mediapipe.tasks.vision.facelandmarker.FaceLandmarker.FaceLandmarkerOptions;
 import com.google.mediapipe.tasks.vision.facelandmarker.FaceLandmarkerResult;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.List;
+import java.util.Locale;
 
-public class PatientHomeFragment extends Fragment {
+public class YesNoFragment extends Fragment {
 
-    private TextView tv_patient_name, tv_greeting;
-    private View dot_1, dot_2;
+    private LinearLayout zone_yes, zone_no;
     private PreviewView cameraPreview;
     private FaceLandmarker faceLandmarker;
-    private FirebaseFirestore db;
-    private FirebaseAuth mAuth;
-    private boolean eyesCurrentlyClosed = false;
-    private long eyeCloseStartTime = 0;
+    private int currentZone = 0;
+    private CountDownTimer dwellTimer;
+    private boolean isSelecting = false;
+    private boolean isBlinking = false;
+    private long lastBlinkTime = 0;
     private int blinkCount = 0;
     private long firstBlinkTime = 0;
-
+    private TextToSpeech tts;
     private static final float BLINK_CLOSE_THRESHOLD = 0.55f;
     private static final float BLINK_OPEN_THRESHOLD = 0.25f;
     private float EAR_CLOSE_THRESHOLD = 0.15f;   // ← add, overwritten by calibration below
     private float EAR_OPEN_THRESHOLD  = 0.21f;
-    //private static final int MIN_BLINK_DURATION_MS = 60;
-    //private static final int MAX_BLINK_DURATION_MS = 500;
-
     private int MIN_BLINK_DURATION_MS = 60;
     private int MAX_BLINK_DURATION_MS = 500;
-    private static final int DOUBLE_BLINK_WINDOW_MS = 1500;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_patient_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_yes_no, container, false);
 
-        tv_patient_name = v.findViewById(R.id.tv_patient_name);
-        tv_greeting = v.findViewById(R.id.tv_greeting);
-        dot_1 = v.findViewById(R.id.dot_1);
-        dot_2 = v.findViewById(R.id.dot_2);
-        cameraPreview = v.findViewById(R.id.camera_preview);
+        zone_yes = view.findViewById(R.id.zone_yes);
+        zone_no = view.findViewById(R.id.zone_no);
+        cameraPreview = view.findViewById(R.id.camera_preview);
 
-        db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
+        tts = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    tts.setLanguage(Locale.US);
+                }
+            }
+        });
 
-        loadPatientName();
-        setGreeting();
         setupFaceLandmarker();
         startCamera();
+
+        // Start on Yes by default and begin dwell timer
+        currentZone = 0;
+        highlightZone(currentZone);
+        startDwellTimer();
 
         BlinkConfig config = BlinkConfig.load(requireContext());
         MIN_BLINK_DURATION_MS = config.minBlinkMs;
@@ -80,47 +82,7 @@ public class PatientHomeFragment extends Fragment {
         EAR_CLOSE_THRESHOLD = config.earCloseThreshold;   // ← add
         EAR_OPEN_THRESHOLD  = config.earOpenThreshold;
 
-        tv_patient_name.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new PatientSettingsFragment())
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            }
-        });
-
-        return v;
-    }
-
-    private void loadPatientName() {
-        String uid = mAuth.getCurrentUser().getUid();
-        db.collection("users").document(uid).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot document) {
-                        if (document.exists() && isAdded()) {
-                            String name = document.getString("name");
-                            if (name != null) tv_patient_name.setText(name);
-                        }
-                    }
-                });
-    }
-
-    private void setGreeting() {
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        int hour = calendar.get(java.util.Calendar.HOUR_OF_DAY);
-        String greeting;
-        if (hour >= 5 && hour < 12) {
-            greeting = "Good morning,";
-        } else if (hour >= 12 && hour < 17) {
-            greeting = "Good afternoon,";
-        } else {
-            greeting = "Good evening,";
-        }
-        tv_greeting.setText(greeting);
+        return view;
     }
 
     private void setupFaceLandmarker() {
@@ -135,7 +97,7 @@ public class PatientHomeFragment extends Fragment {
                 .setOutputFaceBlendshapes(true)
                 .setResultListener(this::onFaceLandmarkerResult)
                 .setErrorListener(e ->
-                        android.util.Log.e("SAWT", "Home error: " + e.getMessage())
+                        android.util.Log.e("SAWT", "FaceLandmarker error: " + e.getMessage())
                 )
                 .build();
 
@@ -152,11 +114,14 @@ public class PatientHomeFragment extends Fragment {
             public void run() {
                 try {
                     ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+
                     Preview preview = new Preview.Builder().build();
                     preview.setSurfaceProvider(cameraPreview.getSurfaceProvider());
+
                     ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                             .build();
+
                     imageAnalysis.setAnalyzer(
                             ContextCompat.getMainExecutor(requireContext()),
                             new ImageAnalysis.Analyzer() {
@@ -166,6 +131,7 @@ public class PatientHomeFragment extends Fragment {
                                 }
                             }
                     );
+
                     cameraProvider.unbindAll();
                     cameraProvider.bindToLifecycle(
                             getViewLifecycleOwner(),
@@ -173,6 +139,7 @@ public class PatientHomeFragment extends Fragment {
                             preview,
                             imageAnalysis
                     );
+
                 } catch (ExecutionException | InterruptedException e) {
                     android.util.Log.e("SAWT", "Camera error: " + e.getMessage());
                 }
@@ -222,66 +189,100 @@ public class PatientHomeFragment extends Fragment {
             }
         }
     }
+
     private void checkBlink(float leftBlink, float rightBlink, float ear) {
+        if (isSelecting) return;
+
         long now = System.currentTimeMillis();
 
-        boolean bothEyesClosed = (leftBlink > BLINK_CLOSE_THRESHOLD && rightBlink > BLINK_CLOSE_THRESHOLD)
-                && ear < EAR_CLOSE_THRESHOLD;
-        boolean bothEyesOpen   = (leftBlink < BLINK_OPEN_THRESHOLD  && rightBlink < BLINK_OPEN_THRESHOLD)
-                || ear > EAR_OPEN_THRESHOLD;
-
-        if (bothEyesClosed && !eyesCurrentlyClosed) {
-            eyesCurrentlyClosed = true;
-            eyeCloseStartTime = now;
+        if (leftBlink > BLINK_CLOSE_THRESHOLD && rightBlink > BLINK_CLOSE_THRESHOLD
+                && ear < EAR_CLOSE_THRESHOLD && !isBlinking) {
+            isBlinking = true;
+            lastBlinkTime = now;
         }
 
-        if (eyesCurrentlyClosed && bothEyesOpen) {
-            long closedDuration = now - eyeCloseStartTime;
-            eyesCurrentlyClosed = false;
+        if (isBlinking && ((leftBlink < BLINK_OPEN_THRESHOLD && rightBlink < BLINK_OPEN_THRESHOLD)
+                || ear > EAR_OPEN_THRESHOLD)) {
+            isBlinking = false;
+            long blinkDuration = now - lastBlinkTime;
 
-            if (closedDuration >= MIN_BLINK_DURATION_MS && closedDuration <= MAX_BLINK_DURATION_MS) {
-
+            // reject blinks that are too short (noise) OR too long (resting/looking away)
+            if (blinkDuration >= MIN_BLINK_DURATION_MS && blinkDuration <= MAX_BLINK_DURATION_MS) {
                 if (blinkCount == 0) {
                     blinkCount = 1;
                     firstBlinkTime = now;
-                    animateDot(1);
-                } else if (blinkCount == 1 && (now - firstBlinkTime) <= DOUBLE_BLINK_WINDOW_MS) {
+                } else if (blinkCount == 1 && now - firstBlinkTime < 500) {
                     blinkCount = 0;
-                    animateDot(0);
-                    enterCommunicationBoard();
+                    goBack();
+                    return;
                 } else {
                     blinkCount = 1;
                     firstBlinkTime = now;
-                    animateDot(1);
+                }
+
+                if (blinkCount == 1) {
+                    advanceZone();
                 }
             }
         }
 
-
-        if (blinkCount == 1 && (now - firstBlinkTime) > DOUBLE_BLINK_WINDOW_MS) {
+        if (blinkCount == 1 && now - firstBlinkTime > 500) {
             blinkCount = 0;
-            animateDot(0);
+        }
+    }
+    private void advanceZone() {
+        currentZone = (currentZone + 1) % 2;
+        highlightZone(currentZone);
+        startDwellTimer();
+    }
+
+    private void startDwellTimer() {
+        if (dwellTimer != null) dwellTimer.cancel();
+
+        dwellTimer = new CountDownTimer(3000, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {}
+
+            @Override
+            public void onFinish() {
+                if (!isSelecting) {
+                    isSelecting = true;
+                    String answer = currentZone == 0 ? "YES" : "NO";
+                    tts.speak(answer, TextToSpeech.QUEUE_FLUSH, null, null);
+                    // Reset to Yes and restart timer for next question
+                    currentZone = 0;
+                    isSelecting = false;
+                    highlightZone(currentZone);
+                    startDwellTimer();
+                }
+            }
+        }.start();
+    }
+
+    private void highlightZone(int index) {
+        zone_yes.setBackgroundColor(android.graphics.Color.parseColor("#1A2A1A"));
+        zone_no.setBackgroundColor(android.graphics.Color.parseColor("#2A1A1A"));
+
+        if (index == 0) {
+            zone_yes.setBackgroundResource(R.drawable.zone_active_bg);
+        } else {
+            zone_no.setBackgroundResource(R.drawable.zone_active_bg);
         }
     }
 
-    private void animateDot(int activeDots) {
-        if (!isAdded()) return;
-        dot_1.setAlpha(activeDots >= 1 ? 1.0f : 0.2f);
-        dot_2.setAlpha(activeDots >= 2 ? 1.0f : 0.2f);
-    }
-
-    private void enterCommunicationBoard() {
-        if (!isAdded()) return;
-        getParentFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, new CommunicationFragment())
-                .addToBackStack(null)
-                .commit();
+    private void goBack() {
+        if (dwellTimer != null) dwellTimer.cancel();
+        getParentFragmentManager().popBackStack();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        if (dwellTimer != null) dwellTimer.cancel();
         if (faceLandmarker != null) faceLandmarker.close();
     }
 }
