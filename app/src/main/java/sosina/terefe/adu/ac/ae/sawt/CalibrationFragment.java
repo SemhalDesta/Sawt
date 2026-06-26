@@ -331,8 +331,8 @@ public class CalibrationFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         if (countDownTimer != null) countDownTimer.cancel();
         if (faceLandmarker != null) faceLandmarker.close();
     }

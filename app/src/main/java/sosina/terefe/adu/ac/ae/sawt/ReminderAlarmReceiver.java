@@ -20,6 +20,7 @@ public class ReminderAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        android.util.Log.d("SAWT_REMINDER", "Receiver FIRED");
         int reminderId = intent.getIntExtra("reminder_id", -1);
         String title = intent.getStringExtra("reminder_title");
         String patientName = intent.getStringExtra("reminder_patient");

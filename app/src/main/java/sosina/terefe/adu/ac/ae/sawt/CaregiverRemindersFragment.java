@@ -49,6 +49,7 @@ public class CaregiverRemindersFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
+        ensureExactAlarmPermission();
         loadPatientName();
 
         btn_add.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +68,8 @@ public class CaregiverRemindersFragment extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot doc) {
+                        if (!isAdded()) return; // fragment was navigated away from before this returned
+
                         if (doc.getString("name") != null) {
                             patientName = doc.getString("name");
                             tv_patient_subtitle.setText(patientName + "'s schedule");
