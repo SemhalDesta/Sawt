@@ -1,64 +1,97 @@
 package sosina.terefe.adu.ac.ae.sawt;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AdminFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.fragment.app.Fragment;
+
 public class AdminFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AdminFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AdminFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AdminFragment newInstance(String param1, String param2) {
-        AdminFragment fragment = new AdminFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private LinearLayout tab_users, tab_stats, tab_menu;
+    private TextView tab_users_text, tab_stats_text, tab_menu_text;
+    private Button btn_admin_logout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin, container, false);
+        View v = inflater.inflate(R.layout.fragment_admin, container, false);
+
+        tab_users = v.findViewById(R.id.tab_users);
+        tab_stats = v.findViewById(R.id.tab_stats);
+        tab_menu = v.findViewById(R.id.tab_menu);
+        tab_users_text = v.findViewById(R.id.tab_users_text);
+        tab_stats_text = v.findViewById(R.id.tab_stats_text);
+        tab_menu_text = v.findViewById(R.id.tab_menu_text);
+
+        btn_admin_logout = v.findViewById(R.id.btn_admin_logout);
+        btn_admin_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new androidx.appcompat.app.AlertDialog.Builder(getContext())
+                        .setTitle("Logout")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Logout", new android.content.DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(android.content.DialogInterface dialog, int which) {
+                                com.google.firebase.auth.FirebaseAuth.getInstance().signOut();
+                                getParentFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.fragment_container, new LoginFragment())
+                                        .commit();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            }
+        });
+
+
+        loadFragment(new AdminUsersFragment());
+        setActiveTab(tab_users_text);
+
+        tab_users.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new AdminUsersFragment());
+                setActiveTab(tab_users_text);
+            }
+        });
+
+        tab_stats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new AdminStatsFragment());
+                setActiveTab(tab_stats_text);
+            }
+        });
+
+        tab_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new AdminMenuFragment());
+                setActiveTab(tab_menu_text);
+            }
+        });
+
+        return v;
+    }
+
+    private void loadFragment(Fragment fragment) {
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.admin_fragment_container, fragment)
+                .commit();
+    }
+
+    private void setActiveTab(TextView activeTab) {
+        tab_users_text.setTextColor(0xFF888888);
+        tab_stats_text.setTextColor(0xFF888888);
+        tab_menu_text.setTextColor(0xFF888888);
+        activeTab.setTextColor(0xFFFFFFFF);
     }
 }

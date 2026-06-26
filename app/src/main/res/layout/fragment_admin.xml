@@ -1,14 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminFragment">
+    android:orientation="vertical"
+    android:background="@color/bg_dark">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <FrameLayout
+        android:id="@+id/admin_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="32dp"/>
 
-</FrameLayout>
+    <Button
+        style="@style/AppButton"
+        android:id="@+id/btn_admin_logout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Logout"
+        android:textColor="@color/black"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/bg_card"
+        android:paddingTop="10dp"
+        android:paddingBottom="32dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <LinearLayout
+            android:id="@+id/tab_users"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/tab_users_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_users"
+                />
+
+            <TextView
+                android:id="@+id/tab_users_text"
+                style="@style/TabText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Users"
+                android:textColor="@color/tab_active"
+                android:layout_marginTop="4dp"/>
+
+            <View
+                android:id="@+id/tab_users_dot"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/green_dot"
+                android:visibility="visible"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_stats"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/tab_stats_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_stats"
+                />
+
+            <TextView
+                android:id="@+id/tab_stats_text"
+                style="@style/TabText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Statistics"
+                android:textColor="@color/tab_inactive"
+                android:layout_marginTop="4dp"/>
+
+            <View
+                android:id="@+id/tab_stats_dot"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:visibility="invisible"
+                android:background="@drawable/green_dot"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_menu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/tab_menu_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_menu_manage"
+                />
+
+            <TextView
+                android:id="@+id/tab_menu_text"
+                style="@style/TabText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Menu"
+                android:textColor="@color/tab_inactive"
+                android:layout_marginTop="4dp"/>
+
+            <View
+                android:id="@+id/tab_menu_dot"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:visibility="invisible"
+                android:background="@drawable/green_dot"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
