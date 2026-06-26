@@ -43,7 +43,7 @@ No specialised medical hardware. No wearables. No clinical setup. A standard And
 
 **How it works**
 
-The patient's phone is mounted in front of their face. Google MediaPipe FaceLandmarker runs continuously on the front camera, detecting eye closure scores in real time. A duration-gated blink state machine registers a valid blink only when eyes close and reopen within a calibrated time window, filtering out resting-eye noise and involuntary twitches.
+The patient's phone is mounted in front of their face. The app continuously analyzes the user's eyes using Google's MediaPipe Face Landmarker. A blink is only considered valid if it closes and reopens within the patient's calibrated blink duration, reducing accidental selections.
 
 **Navigation is entirely blink-driven**:
 
@@ -200,13 +200,13 @@ A Firebase project with Authentication, Firestore, and Cloud Messaging enabled
 # Setup
 
 
-Clone this repository
-Create a Firebase project at console.firebase.google.com
-Add an Android app with package name sosina.terefe.adu.ac.ae.sawt
-Download google-services.json and place it in the app/ directory
-Enable Email/Password authentication in Firebase Console
-Deploy the Cloud Function in /functions/index.js using Firebase CLI: firebase deploy --only functions
-Open the project in Android Studio and run on a physical device
+- Clone this repository
+- Create a Firebase project at console.firebase.google.com
+- Add an Android app with package name sosina.terefe.adu.ac.ae.sawt
+- Download google-services.json and place it in the app/ directory
+- Enable Email/Password authentication in Firebase Console
+- Deploy the Cloud Function in /functions/index.js using Firebase CLI: firebase deploy --only functions
+- Open the project in Android Studio and run on a physical device
 
 Firestore initial data
 
