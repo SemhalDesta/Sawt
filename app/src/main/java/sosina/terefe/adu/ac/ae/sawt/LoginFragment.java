@@ -236,6 +236,13 @@ public class LoginFragment extends Fragment {
     private void navigateBasedOnRole(String role) {
         if (!isAdded()) return;
 
+        // Grab the current FCM token now that we know who's logged in,
+        // and save it to this user's Firestore doc so SOS/notifications can reach them.
+        FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(SawtMessagingService::saveTokenForCurrentUser)
+                .addOnFailureListener(e ->
+                        android.util.Log.e("SAWT", "Failed to fetch FCM token: " + e.getMessage()));
+
         Fragment nextFragment;
 
         switch (role) {
@@ -250,5 +257,9 @@ public class LoginFragment extends Fragment {
                 break;
         }
 
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, nextFragment)
+                .commit();
     }
 }

@@ -1,14 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CaregiverSettingsFragment">
+    android:orientation="vertical"
+    android:background="@color/bg_dark">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                style="@style/TextTitle"
+                android:paddingBottom="4dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="YOUR DETAILS"
+                style="@style/TextLabel"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_rounded"
+                android:padding="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_caregiver_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextBody"
+                    android:paddingBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/tv_caregiver_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextSubtitle"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LINKED PATIENTS"
+                style="@style/TextLabel"
+                android:paddingTop="24dp"
+                android:paddingBottom="8dp"/>
+
+            <LinearLayout
+                android:id="@+id/patients_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <Button
+        style="@style/AppButton"
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Logout"
+        android:textColor="@color/black"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="32dp"/>
+
+</LinearLayout>
