@@ -1,14 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CaregiverSetupFragment">
+    android:orientation="vertical"
+    android:background="#0D0D0D">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <FrameLayout
+        android:id="@+id/caregiver_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="32dp"/>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#1A1A1A"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <LinearLayout
+            android:id="@+id/tab_feed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/tab_feed_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_feed"
+                android:tint="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/tab_feed_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Feed"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:layout_marginTop="4dp"/>
+
+            <View
+                android:id="@+id/tab_feed_dot"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/green_dot"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_reminders"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/tab_reminders_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_reminders"
+                android:tint="#888888"/>
+
+            <TextView
+                android:id="@+id/tab_reminders_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reminders"
+                android:textColor="#888888"
+                android:textSize="11sp"
+                android:layout_marginTop="4dp"/>
+
+            <View
+                android:id="@+id/tab_reminders_dot"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:visibility="invisible"
+                android:background="@drawable/green_dot"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_settings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/tab_settings_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_settings"
+                android:tint="#888888"/>
+
+            <TextView
+                android:id="@+id/tab_settings_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textColor="#888888"
+                android:textSize="11sp"
+                android:layout_marginTop="4dp"/>
+
+            <View
+                android:id="@+id/tab_settings_dot"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="4dp"
+                android:visibility="invisible"
+                android:background="@drawable/green_dot"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
