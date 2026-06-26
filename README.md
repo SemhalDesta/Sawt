@@ -21,9 +21,9 @@ SAWT targets exactly this gap. It serves the patients who fall through every exi
 ---
 # Who It Is For
 
-Primary user: A patient with severe motor and speech impairment following stroke or a similar neurological condition — who retains voluntary vertical eye blink but has lost all other voluntary movement and speech.
+**Primary user**: A patient with severe motor and speech impairment following stroke or a similar neurological condition — who retains voluntary vertical eye blink but has lost all other voluntary movement and speech.
 
-Secondary users:
+**Secondary users**:
 
 
 Caregivers (family members or nurses) who need to understand what the patient needs in real time
@@ -45,7 +45,7 @@ No specialised medical hardware. No wearables. No clinical setup. A standard And
 
 The patient's phone is mounted in front of their face. Google MediaPipe FaceLandmarker runs continuously on the front camera, detecting eye closure scores in real time. A duration-gated blink state machine registers a valid blink only when eyes close and reopen within a calibrated time window, filtering out resting-eye noise and involuntary twitches.
 
-Navigation is entirely blink-driven:
+**Navigation is entirely blink-driven**:
 
 
 A single blink cycles through highlighted options on screen
@@ -89,38 +89,38 @@ Per-patient calibration: A 20-second guided calibration session measures that sp
 The following claims can be verified by running the app or reviewing the codebase.
 
 ### Valid blink detection
-- **Claim:** A valid blink is detected within a calibrated window (default **60–500 ms**).
-- **How to verify:** Review `PatientHomeFragment.java` (`checkBlink()` method) and `BlinkConfig.java`.
+- Claim: A valid blink is detected within a calibrated window (default **60–500 ms**).
+- How to verify: Review `PatientHomeFragment.java` (`checkBlink()` method) and `BlinkConfig.java`.
 
 ---
 
 ### Fast patient communication
-- **Claim:** A patient can navigate to **"I am thirsty"** in under **30 seconds** from the home screen.
-- **How to verify:** Watch the demo video and time the interaction from the first double blink to message delivery.
+- Claim: A patient can navigate to **"I am thirsty"** in under **30 seconds** from the home screen.
+- How to verify: Watch the demo video and time the interaction from the first double blink to message delivery.
 
 ---
 
 ### Real-time caregiver notification
-- **Claim:** A caregiver receives the patient's message in **under 3 seconds**.
-- **How to verify:** Watch the demo video showing the caregiver's phone receiving the notification in real time.
+- Claim: A caregiver receives the patient's message in **under 3 seconds**.
+- How to verify: Watch the demo video showing the caregiver's phone receiving the notification in real time.
 
 ---
 
 ### Simultaneous SOS alert
-- **Claim:** SOS triggers both a phone call and an FCM push notification simultaneously.
-- **How to verify:** Review `CommunicationFragment.java` (`triggerSOS()` method) and confirm the behavior in the demo video.
+- Claim: SOS triggers both a phone call and an FCM push notification simultaneously.
+- How to verify: Review `CommunicationFragment.java` (`triggerSOS()` method) and confirm the behavior in the demo video.
 
 ---
 
 ### Admin-controlled communication board
-- **Claim:** Communication board content can be updated by an admin without modifying the app code.
-- **How to verify:** Review `AdminMenuFragment.java` and the Firestore `menus` collection, which drives all displayed content.
+- Claim: Communication board content can be updated by an admin without modifying the app code.
+- How to verify: Review `AdminMenuFragment.java` and the Firestore `menus` collection, which drives all displayed content.
 
 ---
 
 ### Personalized blink calibration
-- **Claim:** Blink calibration adjusts the detection window to an individual's physiology.
-- **How to verify:** Review `CalibrationFragment.java` and `BlinkConfig.java`.
+- Claim: Blink calibration adjusts the detection window to an individual's physiology.
+- How to verify: Review `CalibrationFragment.java` and `BlinkConfig.java`.
 
 **Testing evidence:**
 
@@ -133,7 +133,7 @@ Category logging verified in Firestore — each message stored with timestamp, p
 
 ---
 
-###Feasibility and Deployment
+# Feasibility and Deployment
 
 Hardware requirement: A standard Android smartphone with a front camera, plus a generic phone mount or bed rail clamp (widely available for under 150 AED). No proprietary medical hardware is required.
 
@@ -177,17 +177,17 @@ Replication to other communities: SAWT requires no local infrastructure. A famil
 **Tech stack:**
 
 
-Android (Java), minSdk 26
-Google MediaPipe FaceLandmarker — on-device face mesh and blendshape detection
-CameraX — front camera live stream
-Firebase Authentication — role-based login (patient / caregiver / admin)
-Cloud Firestore — users, menus, logs, emergency contacts
-Firebase Cloud Messaging + Cloud Functions — push notification delivery for SOS
-SharedPreferences — local blink calibration persistence
+- Android (Java), minSdk 26
+- Google MediaPipe FaceLandmarker — on-device face mesh and blendshape detection
+- CameraX — front camera live stream
+- Firebase Authentication — role-based login (patient / caregiver / admin)
+- Cloud Firestore — users, menus, logs, emergency contacts
+- Firebase Cloud Messaging + Cloud Functions — push notification delivery for SOS
+- SharedPreferences — local blink calibration persistence
 
 ---
 
-**How to Run**
+# How to Run
 
 **Prerequisites**
 
@@ -197,7 +197,7 @@ Physical Android device with API 26+ and a front camera (emulator does not suppo
 A Firebase project with Authentication, Firestore, and Cloud Messaging enabled
 
 ---
-**Setup**
+# Setup
 
 
 Clone this repository
