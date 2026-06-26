@@ -92,31 +92,25 @@ The following claims can be verified by running the app or reviewing the codebas
 - Claim: A valid blink is detected within a calibrated window (default **60–500 ms**).
 - How to verify: Review `PatientHomeFragment.java` (`checkBlink()` method) and `BlinkConfig.java`.
 
----
 
 ### Fast patient communication
 - Claim: A patient can navigate to **"I am thirsty"** in under **30 seconds** from the home screen.
 - How to verify: Watch the demo video and time the interaction from the first double blink to message delivery.
 
----
 
 ### Real-time caregiver notification
 - Claim: A caregiver receives the patient's message in **under 3 seconds**.
 - How to verify: Watch the demo video showing the caregiver's phone receiving the notification in real time.
 
----
 
 ### Simultaneous SOS alert
 - Claim: SOS triggers both a phone call and an FCM push notification simultaneously.
 - How to verify: Review `CommunicationFragment.java` (`triggerSOS()` method) and confirm the behavior in the demo video.
 
----
 
 ### Admin-controlled communication board
 - Claim: Communication board content can be updated by an admin without modifying the app code.
 - How to verify: Review `AdminMenuFragment.java` and the Firestore `menus` collection, which drives all displayed content.
-
----
 
 ### Personalized blink calibration
 - Claim: Blink calibration adjusts the detection window to an individual's physiology.
