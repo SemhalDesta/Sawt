@@ -1,0 +1,39 @@
+app/src/main/res/values/strings.xml
+    app/src/main/res/values/colors.xml
+    app/src/main/res/values/themes.xml<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- app backgrounds -->
+    <color name="bg_dark">#0D0D0D</color>
+    <color name="bg_card">#1A1A1A</color>
+
+    <!-- text colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#888888</color>
+
+    <!-- zone colors -->
+    <color name="zone_physical">#1B5E20</color>
+    <color name="zone_pain">#B71C1C</color>
+    <color name="zone_emotion">#4A148C</color>
+    <color name="zone_sos">#E65100</color>
+
+    <!-- status colors -->
+    <color name="status_upcoming">#1565C0</color>
+    <color name="status_done">#2E7D32</color>
+
+    <!-- tab colors -->
+    <color name="tab_active">#FFFFFF</color>
+    <color name="tab_inactive">#888888</color>
+
+
+    <!-- Admin colors -->
+    <color name="admin_accent">#7B1FA2</color>
+    <color name="admin_accent_light">#CE93D8</color>
+    <color name="danger_red">#C62828</color>
+    <color name="danger_red_light">#EF9A9A</color>
+
+
+    <color name="delete_btn_bg">#C62828</color>
+</resources>
