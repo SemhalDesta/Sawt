@@ -276,8 +276,8 @@ public class YesNoFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         if (tts != null) {
             tts.stop();
             tts.shutdown();

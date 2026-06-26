@@ -585,8 +585,8 @@ public class Submenu extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         if (dwellTimer != null) dwellTimer.cancel();
         if (faceLandmarker != null) faceLandmarker.close();
     }

@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.SimpleDateFormat;
@@ -138,7 +139,7 @@ public class CaregiverFeedFragment extends Fragment {
         ListenerRegistration listener = db.collection("users")
                 .document(patientUid)
                 .collection("logs")
-                .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .orderBy("timestamp", Query.Direction.ASCENDING)
                 .addSnapshotListener((snapshots, e) -> {
                     if (e != null || snapshots == null) return;
                     for (DocumentChange change : snapshots.getDocumentChanges()) {

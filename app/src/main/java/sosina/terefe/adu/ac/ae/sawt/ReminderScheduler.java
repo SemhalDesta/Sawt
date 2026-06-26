@@ -9,14 +9,26 @@ import android.os.Build;
 public class ReminderScheduler {
 
     public static void schedule(Context context, Reminder reminder) {
-        if (reminder.getTriggerAtMillis() <= System.currentTimeMillis()) return;
+        android.util.Log.d("SAWT_REMINDER", "schedule() called, triggerAt=" + reminder.getTriggerAtMillis()
+                + " now=" + System.currentTimeMillis());
+
+        if (reminder.getTriggerAtMillis() <= System.currentTimeMillis()) {
+            android.util.Log.d("SAWT_REMINDER", "Bailing: trigger time is already in the past");
+            return;
+        }
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (alarmManager == null) return;
+        if (alarmManager == null) {
+            android.util.Log.d("SAWT_REMINDER", "Bailing: AlarmManager is null");
+            return;
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
-            return; // permission not granted yet — fragment asks for it before this is ever called
+            android.util.Log.d("SAWT_REMINDER", "Bailing: exact alarm permission NOT granted");
+            return;
         }
+
+        android.util.Log.d("SAWT_REMINDER", "Permission OK — alarm being scheduled now");
 
         Intent intent = buildIntent(context, reminder.getId(), reminder.getTitle(),
                 reminder.getPatientName(), reminder.getFrequency());
