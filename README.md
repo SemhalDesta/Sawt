@@ -229,7 +229,7 @@ The demo shows:
 
 - Patient logs in and runs the 20-second blink calibration
 - Patient double-blinks to enter the communication board
-- Patient navigates to Physical Needs → I am thirsty using single blinks and dwell-time selection
+- Patient navigates to Physical Needs — I am thirsty using single blinks and dwell-time selection
 - Caregiver phone receives the message in real time, colour-coded by category
 - Patient triggers SOS — caregiver receives phone call and push notification simultaneously
 - Admin updates a communication board option — change reflects on the patient's app instantly
