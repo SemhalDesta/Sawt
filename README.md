@@ -119,11 +119,11 @@ The following claims can be verified by running the app or reviewing the codebas
 **Testing evidence:**
 
 
-Tested on 5+ able-bodied participants in adequately lit indoor environments
-Double-blink to message delivery consistently achieved in under 45 seconds across all test sessions
-SOS notification delivery confirmed across two physical Android devices simultaneously
-Zero false positives observed during 10-minute resting sessions (eyes open, no intentional blink)
-Category logging verified in Firestore — each message stored with timestamp, patient name, and category field
+- Tested on 5+ able-bodied participants in adequately lit indoor environments
+- Double-blink to message delivery consistently achieved in under 45 seconds across all test sessions
+- SOS notification delivery confirmed across two physical Android devices simultaneously
+- Zero false positives observed during 10-minute resting sessions (eyes open, no intentional blink)
+- Category logging verified in Firestore — each message stored with timestamp, patient name, and category field
 
 ---
 
