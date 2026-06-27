@@ -83,6 +83,10 @@ Per-patient calibration: A 20-second guided calibration session measures that sp
 - Manage registered users across all roles
 - Manage communication board categories and submenu options stored in Firestore — changes reflect in every patient's app instantly, without a software update or developer involvement
 
+# System Architecture
+
+![System Architecture](screenshots/Screenshot 2026-06-27 031032.png)
+
 
 **Testable Claims**
 
