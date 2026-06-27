@@ -237,3 +237,43 @@ The demo shows:
 - Caregiver phone receives the message in real time, colour-coded by category
 - Patient triggers SOS — caregiver receives phone call and push notification simultaneously
 - Admin updates a communication board option — change reflects on the patient's app instantly
+
+# Screenshots
+
+### Patient interface
+
+<p float="left">
+  <img src="screenshots/p1.jpg" width="200"/>
+  <img src="screenshots/p2.jpg" width="200"/>
+  <img src="screenshots/p3.jpg" width="200"/>
+</p>
+
+<p float="left">
+  <img src="screenshots/p4.jng" width="200"/>
+  <img src="screenshots/p5.jpg" width="200"/>
+  <img src="screenshots/p6.jpg" width="200"/>
+</p>
+
+<p float="left">
+  <img src="screenshots/p7.jpg" width="200"/>
+</p>
+
+
+### Caretaker interface
+
+<p float="left">
+  <img src="screenshots/c1.jpg" width="200"/>
+  <img src="screenshots/c2.jpg" width="200"/>
+  <img src="screenshots/c3.jpg" width="200"/>
+</p>
+
+
+### Admin interface
+
+<p float="left">
+  <img src="screenshots/a1.jpg" width="200"/>
+  <img src="screenshots/a2.jpg" width="200"/>
+  <img src="screenshots/a3.jpg" width="200"/>
+</p>
+
+
