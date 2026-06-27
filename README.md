@@ -85,7 +85,7 @@ Per-patient calibration: A 20-second guided calibration session measures that sp
 
 # System Architecture
 
-![System Architecture](screenshots/Screenshot 2026-06-27 031032.png)
+![System Architecture](screenshots/architecture.png)
 
 
 **Testable Claims**
