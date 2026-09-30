@@ -1,5 +1,5 @@
-# Sawt
-Tatweer Hackathon 2026 - Challenge 5 - Free Choice Al Qua'a, Al Ain, UAE
+# Sawt: A Blink-Controlled mHealth Communication System for Post-Stroke Patients with Severe Motor Impairment 
+ 
 ---
 # The Problem
 
@@ -99,17 +99,14 @@ The following claims can be verified by running the app or reviewing the codebas
 
 ### Fast patient communication
 - Claim: A patient can navigate to **"I am thirsty"** in under **30 seconds** from the home screen.
-- How to verify: Watch the demo video and time the interaction from the first double blink to message delivery.
 
 
 ### Real-time caregiver notification
 - Claim: A caregiver receives the patient's message in **under 3 seconds**.
-- How to verify: Watch the demo video showing the caregiver's phone receiving the notification in real time.
 
 
 ### Simultaneous SOS alert
 - Claim: SOS triggers both a phone call and an FCM push notification simultaneously.
-- How to verify: Review `CommunicationFragment.java` (`triggerSOS()` method) and confirm the behavior in the demo video.
 
 
 ### Admin-controlled communication board
@@ -220,23 +217,9 @@ menus/
 
 Note on Firebase credentials
 
-google-services.json is excluded from this repository for security. Reviewers who wish to run the app locally will need to connect their own Firebase project. To verify the app's functionality without setup, please watch the demo video.
+google-services.json is excluded from this repository for security. Reviewers who wish to run the app locally will need to connect their own Firebase project. To verify the app's functionality without setup.
 
 --- 
-# Demo
-
-Watch the full demo video
-(Link will be added before submission deadline)
-
-The demo shows:
-
-
-- Patient logs in and runs the 20-second blink calibration
-- Patient double-blinks to enter the communication board
-- Patient navigates to Physical Needs — I am thirsty using single blinks and dwell-time selection
-- Caregiver phone receives the message in real time, colour-coded by category
-- Patient triggers SOS — caregiver receives phone call and push notification simultaneously
-- Admin updates a communication board option — change reflects on the patient's app instantly
 
 # Screenshots
 
